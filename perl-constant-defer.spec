@@ -4,15 +4,16 @@
 #
 Name     : perl-constant-defer
 Version  : 6
-Release  : 1
+Release  : 2
 URL      : https://cpan.metacpan.org/authors/id/K/KR/KRYDE/constant-defer-6.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/K/KR/KRYDE/constant-defer-6.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libc/libconstant-defer-perl/libconstant-defer-perl_6-1.debian.tar.xz
 Summary  : 'Constant subs with deferred value calculation.'
 Group    : Development/Tools
 License  : GPL-3.0
-Requires: perl-constant-defer-license
-Requires: perl-constant-defer-man
+Requires: perl-constant-defer-data = %{version}-%{release}
+Requires: perl-constant-defer-license = %{version}-%{release}
+BuildRequires : buildreq-cpan
 
 %description
 This file is part of constant-defer.
@@ -21,13 +22,22 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 3, or (at
 your option) any later version.
 
-%package doc
-Summary: doc components for the perl-constant-defer package.
-Group: Documentation
-Requires: perl-constant-defer-man
+%package data
+Summary: data components for the perl-constant-defer package.
+Group: Data
 
-%description doc
-doc components for the perl-constant-defer package.
+%description data
+data components for the perl-constant-defer package.
+
+
+%package dev
+Summary: dev components for the perl-constant-defer package.
+Group: Development
+Requires: perl-constant-defer-data = %{version}-%{release}
+Provides: perl-constant-defer-devel = %{version}-%{release}
+
+%description dev
+dev components for the perl-constant-defer package.
 
 
 %package license
@@ -38,19 +48,11 @@ Group: Default
 license components for the perl-constant-defer package.
 
 
-%package man
-Summary: man components for the perl-constant-defer package.
-Group: Default
-
-%description man
-man components for the perl-constant-defer package.
-
-
 %prep
-tar -xf %{SOURCE1}
-cd ..
 %setup -q -n constant-defer-6
-mkdir -p %{_topdir}/BUILD/constant-defer-6/deblicense/
+cd ..
+%setup -q -T -D -n constant-defer-6 -b 1
+mkdir -p deblicense/
 mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/constant-defer-6/deblicense/
 
 %build
@@ -75,13 +77,14 @@ make TEST_VERBOSE=1 test
 
 %install
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/perl-constant-defer
-cp COPYING %{buildroot}/usr/share/doc/perl-constant-defer/COPYING
-cp debian/copyright %{buildroot}/usr/share/doc/perl-constant-defer/debian_copyright
+mkdir -p %{buildroot}/usr/share/package-licenses/perl-constant-defer
+cp COPYING %{buildroot}/usr/share/package-licenses/perl-constant-defer/COPYING
+cp debian/copyright %{buildroot}/usr/share/package-licenses/perl-constant-defer/debian_copyright
+cp deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-constant-defer/deblicense_copyright
 if test -f Makefile.PL; then
-make pure_install PERL_INSTALL_ROOT=%{buildroot}
+make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
-./Build install --installdirs=site --destdir=%{buildroot}
+./Build install --installdirs=vendor --destdir=%{buildroot}
 fi
 find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
 find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
@@ -90,16 +93,17 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/constant/defer.pm
+/usr/lib/perl5/vendor_perl/5.26.1/constant/defer.pm
 
-%files doc
-%defattr(0644,root,root,0755)
-%doc /usr/share/doc/perl\-constant\-defer/*
-
-%files license
+%files data
 %defattr(-,root,root,-)
-/usr/share/doc/perl-constant-defer/COPYING
+/usr/share/package-licenses/perl-constant-defer/debian_copyright
 
-%files man
+%files dev
 %defattr(-,root,root,-)
 /usr/share/man/man3/constant::defer.3
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/perl-constant-defer/COPYING
+/usr/share/package-licenses/perl-constant-defer/deblicense_copyright
