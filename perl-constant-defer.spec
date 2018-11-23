@@ -4,14 +4,13 @@
 #
 Name     : perl-constant-defer
 Version  : 6
-Release  : 2
+Release  : 3
 URL      : https://cpan.metacpan.org/authors/id/K/KR/KRYDE/constant-defer-6.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/K/KR/KRYDE/constant-defer-6.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libc/libconstant-defer-perl/libconstant-defer-perl_6-1.debian.tar.xz
 Summary  : 'Constant subs with deferred value calculation.'
 Group    : Development/Tools
 License  : GPL-3.0
-Requires: perl-constant-defer-data = %{version}-%{release}
 Requires: perl-constant-defer-license = %{version}-%{release}
 BuildRequires : buildreq-cpan
 
@@ -22,18 +21,9 @@ modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 3, or (at
 your option) any later version.
 
-%package data
-Summary: data components for the perl-constant-defer package.
-Group: Data
-
-%description data
-data components for the perl-constant-defer package.
-
-
 %package dev
 Summary: dev components for the perl-constant-defer package.
 Group: Development
-Requires: perl-constant-defer-data = %{version}-%{release}
 Provides: perl-constant-defer-devel = %{version}-%{release}
 
 %description dev
@@ -93,11 +83,7 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.26.1/constant/defer.pm
-
-%files data
-%defattr(-,root,root,-)
-/usr/share/package-licenses/perl-constant-defer/debian_copyright
+/usr/lib/perl5/vendor_perl/5.28.0/constant/defer.pm
 
 %files dev
 %defattr(-,root,root,-)
@@ -106,4 +92,5 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 %files license
 %defattr(0644,root,root,0755)
 /usr/share/package-licenses/perl-constant-defer/COPYING
+/usr/share/package-licenses/perl-constant-defer/debian_copyright
 /usr/share/package-licenses/perl-constant-defer/deblicense_copyright
