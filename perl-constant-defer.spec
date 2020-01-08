@@ -4,7 +4,7 @@
 #
 Name     : perl-constant-defer
 Version  : 6
-Release  : 9
+Release  : 10
 URL      : https://cpan.metacpan.org/authors/id/K/KR/KRYDE/constant-defer-6.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/K/KR/KRYDE/constant-defer-6.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libc/libconstant-defer-perl/libconstant-defer-perl_6-1.debian.tar.xz
@@ -12,6 +12,7 @@ Summary  : 'Constant subs with deferred value calculation.'
 Group    : Development/Tools
 License  : GPL-3.0
 Requires: perl-constant-defer-license = %{version}-%{release}
+Requires: perl-constant-defer-perl = %{version}-%{release}
 BuildRequires : buildreq-cpan
 
 %description
@@ -25,6 +26,7 @@ your option) any later version.
 Summary: dev components for the perl-constant-defer package.
 Group: Development
 Provides: perl-constant-defer-devel = %{version}-%{release}
+Requires: perl-constant-defer = %{version}-%{release}
 
 %description dev
 dev components for the perl-constant-defer package.
@@ -38,18 +40,28 @@ Group: Default
 license components for the perl-constant-defer package.
 
 
+%package perl
+Summary: perl components for the perl-constant-defer package.
+Group: Default
+Requires: perl-constant-defer = %{version}-%{release}
+
+%description perl
+perl components for the perl-constant-defer package.
+
+
 %prep
 %setup -q -n constant-defer-6
-cd ..
-%setup -q -T -D -n constant-defer-6 -b 1
+cd %{_builddir}
+tar xf %{_sourcedir}/libconstant-defer-perl_6-1.debian.tar.xz
+cd %{_builddir}/constant-defer-6
 mkdir -p deblicense/
-mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/constant-defer-6/deblicense/
+cp -r %{_builddir}/debian/* %{_builddir}/constant-defer-6/deblicense/
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
+export LANG=C.UTF-8
 if test -f Makefile.PL; then
 %{__perl} Makefile.PL
 make  %{?_smp_mflags}
@@ -59,7 +71,7 @@ else
 fi
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
@@ -68,9 +80,9 @@ make TEST_VERBOSE=1 test
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/perl-constant-defer
-cp COPYING %{buildroot}/usr/share/package-licenses/perl-constant-defer/COPYING
-cp debian/copyright %{buildroot}/usr/share/package-licenses/perl-constant-defer/debian_copyright
-cp deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-constant-defer/deblicense_copyright
+cp %{_builddir}/constant-defer-6/COPYING %{buildroot}/usr/share/package-licenses/perl-constant-defer/842745cb706f8f2126506f544492f7a80dbe29b3
+cp %{_builddir}/constant-defer-6/debian/copyright %{buildroot}/usr/share/package-licenses/perl-constant-defer/98cb9509973a193aa755f28a96ec84677efd33f4
+cp %{_builddir}/constant-defer-6/deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-constant-defer/852dff7792b3a7ee09015772c7a9b841b8cb6753
 if test -f Makefile.PL; then
 make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
@@ -83,7 +95,6 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.2/constant/defer.pm
 
 %files dev
 %defattr(-,root,root,-)
@@ -91,6 +102,10 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/perl-constant-defer/COPYING
-/usr/share/package-licenses/perl-constant-defer/debian_copyright
-/usr/share/package-licenses/perl-constant-defer/deblicense_copyright
+/usr/share/package-licenses/perl-constant-defer/842745cb706f8f2126506f544492f7a80dbe29b3
+/usr/share/package-licenses/perl-constant-defer/852dff7792b3a7ee09015772c7a9b841b8cb6753
+/usr/share/package-licenses/perl-constant-defer/98cb9509973a193aa755f28a96ec84677efd33f4
+
+%files perl
+%defattr(-,root,root,-)
+/usr/lib/perl5/vendor_perl/5.30.1/constant/defer.pm
