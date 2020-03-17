@@ -4,7 +4,7 @@
 #
 Name     : perl-constant-defer
 Version  : 6
-Release  : 10
+Release  : 11
 URL      : https://cpan.metacpan.org/authors/id/K/KR/KRYDE/constant-defer-6.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/K/KR/KRYDE/constant-defer-6.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libc/libconstant-defer-perl/libconstant-defer-perl_6-1.debian.tar.xz
@@ -82,7 +82,7 @@ rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/perl-constant-defer
 cp %{_builddir}/constant-defer-6/COPYING %{buildroot}/usr/share/package-licenses/perl-constant-defer/842745cb706f8f2126506f544492f7a80dbe29b3
 cp %{_builddir}/constant-defer-6/debian/copyright %{buildroot}/usr/share/package-licenses/perl-constant-defer/98cb9509973a193aa755f28a96ec84677efd33f4
-cp %{_builddir}/constant-defer-6/deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-constant-defer/852dff7792b3a7ee09015772c7a9b841b8cb6753
+cp %{_builddir}/debian/copyright %{buildroot}/usr/share/package-licenses/perl-constant-defer/852dff7792b3a7ee09015772c7a9b841b8cb6753
 if test -f Makefile.PL; then
 make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
@@ -108,4 +108,4 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files perl
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.30.1/constant/defer.pm
+/usr/lib/perl5/vendor_perl/5.30.2/constant/defer.pm
