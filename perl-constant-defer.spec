@@ -4,7 +4,7 @@
 #
 Name     : perl-constant-defer
 Version  : 6
-Release  : 18
+Release  : 19
 URL      : https://cpan.metacpan.org/authors/id/K/KR/KRYDE/constant-defer-6.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/K/KR/KRYDE/constant-defer-6.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libc/libconstant-defer-perl/libconstant-defer-perl_6-1.debian.tar.xz
