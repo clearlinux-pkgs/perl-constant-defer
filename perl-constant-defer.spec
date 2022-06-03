@@ -4,7 +4,7 @@
 #
 Name     : perl-constant-defer
 Version  : 6
-Release  : 19
+Release  : 20
 URL      : https://cpan.metacpan.org/authors/id/K/KR/KRYDE/constant-defer-6.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/K/KR/KRYDE/constant-defer-6.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libc/libconstant-defer-perl/libconstant-defer-perl_6-1.debian.tar.xz
@@ -108,4 +108,4 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files perl
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.34.0/constant/defer.pm
+/usr/lib/perl5/*
